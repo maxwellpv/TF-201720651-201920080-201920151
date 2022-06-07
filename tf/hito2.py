@@ -23,6 +23,9 @@ class Graph:
       source = edge["source"]
       target = edge["target"]
 
+      current_time = datetime.now().hour + datetime.now().minute / 60
+      edge["weight"] = self.calculate_weight(edge["length"], current_time)
+
       mapOfEdges[(source, target)] = edge
 
       if adjacencyList.get(source) is None:
@@ -36,6 +39,9 @@ class Graph:
     if factor > 10: return 10
     if factor < 0: return 0
     return factor
+
+  def calculate_weight(self, length, time):
+    return length * self.traffic_factor(time)
 
 def initGraph(documentPath):
   with open(documentPath, mode="r", encoding="utf-8") as f:
