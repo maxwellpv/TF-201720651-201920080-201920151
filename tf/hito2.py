@@ -43,6 +43,9 @@ class Graph:
   def calculate_weight(self, length, time):
     return length * self.traffic_factor(time)
 
+  def update_weight(self, key, time):
+    self.edges[key].weight = self.calculate_weight(self.edges[key].length, time)
+
 def initGraph(documentPath):
   with open(documentPath, mode="r", encoding="utf-8") as f:
     data = geojson.load(f)
