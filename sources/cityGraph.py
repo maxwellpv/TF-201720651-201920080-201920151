@@ -40,11 +40,11 @@ class CityGraph:
     # Rango deseado [0-50]
     return value / 10
 
-  def calculate_weight(self):
-    pass
+  def calculate_weight(self, val, length, time):
+    return length * self.calculate_traffic_factor(val, time)
 
-  def update_weight(self):
-    pass
+  def update_weight(self, key, time):
+    self.streets[key].weight = self.calculate_weight(self.streets[key].val, self.streets[key].length, time)
 
 adjacencyListPath = "adjacency_list.json"
 streetsPath = "calles.json"
