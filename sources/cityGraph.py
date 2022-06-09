@@ -1,5 +1,6 @@
 import json
 import random
+import math
 
 class CityGraph:
   def __init__(self, adjacencyListPath, streetsPath, intersectionsPath):
@@ -27,11 +28,17 @@ class CityGraph:
     with open(intersectionsPath, mode="r", encoding="utf-8") as f:
       self.intersections = json.load(f)
 
-  def traffic_by_hour(self):
-    pass
+  def traffic_by_hour(self, time):
+    factor = round(random.uniform(3, 7) * math.cos(2 * (time / 3) - 1) * math.sin((time / 6) - 2) + 5, 3)
+    if factor > 10: return 10
+    if factor < 0: return 0
+    return factor
 
-  def calculate_traffic_factor(val):
-    pass
+  def calculate_traffic_factor(self, val, time):
+    value = val * self.traffic_by_hour(time)
+    # Rango esperado... Perlin[0..50] * Hora[0..10] = [0-500]
+    # Rango deseado [0-50]
+    return value / 10
 
   def calculate_weight(self):
     pass
