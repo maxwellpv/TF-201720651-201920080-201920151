@@ -29,7 +29,7 @@ class CityGraph:
       self.intersections = json.load(f)
 
   def traffic_by_hour(self, time):
-    factor = round(random.uniform(3, 7) * math.cos(2 * (time / 3) - 1) * math.sin((time / 6) - 2) + 5, 3)
+    factor = round(5 * math.cos(2 * (time / 3) - 1) * math.sin((time / 6) - 2) + 5, 3)
     if factor > 10: return 10
     if factor < 0: return 0
     return factor
