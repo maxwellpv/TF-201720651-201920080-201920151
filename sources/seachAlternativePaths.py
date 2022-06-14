@@ -3,6 +3,44 @@ from cityGraph import CityGraph
 import heapq as hq
 from datetime import datetime
 
+def dijkstraNoWeight(graph: CityGraph, node_start, target, time):
+  seen = {}
+  path = {}
+  cost = {}
+
+  for k in graph.adjacencyList.keys():
+    seen[int(k)] = False
+    path[int(k)] = -1
+    cost[int(k)] = 0
+
+  pqueue = [(0, node_start)]
+
+  while pqueue:
+    c, node = hq.heappop(pqueue)
+
+    for child_node in graph.adjacencyList[str(node)]:
+      if not seen[child_node]:
+        street = graph.streets[(node, child_node)]
+        val = street["val"]
+        length = street["length"]
+
+        new_cost = c + graph.calculate_weight(val, length, time)
+
+        if new_cost > cost[node]:
+          seen[node] = True
+          cost[child_node] = new_cost
+          path[child_node] = node
+          hq.heappush(pqueue, (new_cost, child_node))
+
+  node = target
+  p = [node]
+  while path[node] != -1:
+    p.append(path[node])
+    node = path[node]
+
+  p.reverse()
+  print("path:", p, "cost:", cost[target])
+
 def dijkstra(graph: CityGraph, node_start, target, time):
   seen = {}
   path = {}
