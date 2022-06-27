@@ -1,46 +1,83 @@
 from datetime import datetime
 import json
-import sys
+import math
 
-#sys.path.insert(1, '../sources')  # path of the folder where the cityGraph is saved
-from sources.cityGraph import CityGraph
-
-
-def generateAdjacencyListForUI(cityGraph: CityGraph):
+def generateAdjacencyListForUI(adjacencyListPath, streetsPath):
+    adjacencyList = {}
+    streets = {}
     curr_time = datetime.now().hour
+    keyValues = {}
+
+    def initData():
+        with open(adjacencyListPath, mode="r", encoding="utf-8") as f:
+            nonlocal adjacencyList
+            adjacencyList = json.load(f)
+            adjacencyList = [(int(key), value) for key, value in adjacencyList.items()]
+            adjacencyList = sorted(adjacencyList, key=lambda x: x[0])
+
+            i = 0
+            for key, val in adjacencyList:
+                keyValues[key] = i
+                i += 1
+
+        with open(streetsPath, mode="r", encoding="utf-8") as f:
+            nonlocal streets
+            streetsList = json.load(f)
+
+            for element in streetsList:
+                k, v = element
+
+                key = tuple(element[k])
+                value = element[v]
+
+                streets[key] = value
+
+    def traffic_by_hour(time):
+        factor = round(5 * math.cos(2 * (time / 3) - 1) * math.sin((time / 6) - 2) + 5, 3)
+        if factor > 10: return 10
+        if factor < 0: return 0
+        return factor
+
+    def calculate_traffic_factor(val, time):
+        value = val * traffic_by_hour(time)
+        return value / 10
+
+    def calculate_weight(val, length, time):
+        return length * calculate_traffic_factor(val, time)
 
     def getWeight(city1, city2):
-        street = cityGraph.streets[(city1, city2)]
+        street = streets[(city1, city2)]
         val = street["val"]
         length = street["length"]
-        return cityGraph.calculate_weight(val, length, curr_time)
+        return calculate_weight(val, length, curr_time)
 
-    new_adjacencyList = {}
-    for key, arr in cityGraph.adjacencyList.items():
-        key = int(key)
-        new_adjacencyList[key] = list(map(lambda x: (x, getWeight(key, x)), arr))
+    def getNewAdjacencyList():
+        nonlocal adjacencyList
+        nonlocal keyValues
+        newAdjacencyList = []
+        for key, arr in adjacencyList:
+            newAdjacencyList.append(list(map(lambda x: (keyValues[x], getWeight(key, x)), arr)))
+        return newAdjacencyList
 
-    return new_adjacencyList
-
+    initData()
+    return getNewAdjacencyList()
 
 def generateLocationListForUI(intersectionsPath):
     with open(intersectionsPath) as file:
         data = json.load(file)
+        data = [(int(key), (value['x'], value['y'])) for key, value in data.items()]
+        data = sorted(data, key=lambda x: x[0])
 
-    transform = dict()
-    for i in data:
-        transform[int(i)] = (data[i]['y'], data[i]['x'])
+    locations = []
+    for k, v in data:
+        locations.append(v)
+    
+    return locations
 
-    return transform
 
+adjacencyListPath = "data/adjacency_list.json"
+streetsPath = "data/calles.json"
+intersectionsPath = "data/intersecciones.json"
 
-adjacencyListPath = "../data/adjacency_list.json"
-streetsPath = "../data/calles.json"
-intersectionsPath = "../data/intersecciones.json"
-
-cityGraph = CityGraph(adjacencyListPath=adjacencyListPath, streetsPath=streetsPath, intersectionsPath=intersectionsPath)
-
-new_adjacencyList = generateAdjacencyListForUI(cityGraph)
-locationsList = generateLocationListForUI(intersectionsPath)
-print(new_adjacencyList)
-# print(locationsList)
+print(generateAdjacencyListForUI(adjacencyListPath, streetsPath)[:10])
+print(generateLocationListForUI(intersectionsPath)[:10])
