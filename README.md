@@ -118,7 +118,7 @@ El algoritmo de Dijkstra es un algoritmo de búsqueda de caminos más corto en g
 
 <p align="center">
   <img src="./assets/procedimiento-dijkstra.png" alt=""/>
-  <p align="center">Figura 6. Procedimiento del algoritmo de Dijkstra. Fuente: </p>  
+  <p align="center">Figura 6. Procedimiento del algoritmo de Dijkstra. Fuente: Introduction to Algorithms</p>  
 </p>
 
 ## GeoJSON
