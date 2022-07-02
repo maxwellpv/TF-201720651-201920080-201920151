@@ -327,6 +327,7 @@ def dijkstraPaths(G1, s, t, higher):
 
 * A lo largo del desarrollo del proyecto hemos alcanzado todos los objetivos satisfactoriamente, haciendo uso de diferentes conocimientos adquiridos en el curso. El presente proyecto permitió implementar una situación real a través de un algoritmo que trabaja con grandes cantidades de datos de manera eficiente y útil.
 
+* Para este trabajo final se concluye, que se debe contar con los datos adecuados para poder alcanzar los objetivos del trabajo. Es ese sentido, un buen conjunto de datos, debe permitirnos diseñar algoritmos menos complejos y más eficientes.
 
 # Bibliografía
 
