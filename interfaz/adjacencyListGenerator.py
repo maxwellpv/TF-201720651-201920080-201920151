@@ -43,7 +43,7 @@ def generateAdjacencyListForUI(adjacencyListPath, streetsPath):
         return value / 10
 
     def calculate_weight(val, length, time):
-        return length * calculate_traffic_factor(val, time)
+        return calculate_traffic_factor(val, time) * math.log10(length)
 
     def getWeight(city1, city2):
         street = streets[(city1, city2)]
@@ -62,6 +62,7 @@ def generateAdjacencyListForUI(adjacencyListPath, streetsPath):
     initData()
     return getNewAdjacencyList()
 
+
 def generateLocationListForUI(intersectionsPath):
     with open(intersectionsPath) as file:
         data = json.load(file)
@@ -71,13 +72,5 @@ def generateLocationListForUI(intersectionsPath):
     locations = []
     for k, v in data:
         locations.append(v)
-    
+
     return locations
-
-
-adjacencyListPath = "data/adjacency_list.json"
-streetsPath = "data/calles.json"
-intersectionsPath = "data/intersecciones.json"
-
-print(generateAdjacencyListForUI(adjacencyListPath, streetsPath)[:10])
-print(generateLocationListForUI(intersectionsPath)[:10])

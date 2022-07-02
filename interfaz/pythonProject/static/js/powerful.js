@@ -73,10 +73,10 @@
     }
   }
   const extentw = d3.extent(edges, d => d[2]);
-  console.log(extentw[1])
+  //console.log(extentw[1])
   const scalecolor = d3.scaleLinear()
     .domain(extentw)
-    .range([200, 0]);
+    .range([125, 0]);
   const color = d => `hsla(${scalecolor(d[2])}, 100%, 50%, 0.5)`
   render(edges, color, 2)
 
