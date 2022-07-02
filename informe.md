@@ -322,6 +322,12 @@ def dijkstraPaths(G1, s, t, higher):
   <p align="center">Figura 10. Trazo del camino más corto y caminos alternativos.</p>  
 </p>
 
+
+# Conclusiones
+
+* A lo largo del desarrollo del proyecto hemos alcanzado todos los objetivos satisfactoriamente, haciendo uso de diferentes conocimientos adquiridos en el curso. El presente proyecto permitió implementar una situación real a través de un algoritmo que trabaja con grandes cantidades de datos de manera eficiente y útil.
+
+
 # Bibliografía
 
 Álvares, M. & Parra, J. (2013). Teoría de grafos. Recuperado de https://bit.ly/2Q6mEub [Consulta: 29 de abril de 2022].
